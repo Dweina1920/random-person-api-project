@@ -32,6 +32,6 @@ async function getRandomJoke() {
   phone.textContent = datos.results[0].phone;
   email.textContent = datos.results[0].email;
   let url = `${datos.results[0].picture.large}`;
-  //console.log(url)
+  //console.log(url) verificación de url
   image.src = url;
 }
