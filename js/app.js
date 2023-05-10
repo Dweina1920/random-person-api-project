@@ -6,12 +6,17 @@ let country = document.querySelector("#country");
 let phone = document.querySelector("#phone");
 let email = document.querySelector("#email");
 let btn = document.querySelector("#btn");
+let btnInterview = document.querySelector("#btnInterview");
 
 btn.addEventListener("click", function () {
   getRandomJoke();
 });
+btnInterview.addEventListener("click", function () {
+  interviewData();
+});
 
-async function getRandomJoke() {
+let datos;
+setInterval(async function getRandomJoke() {
   // 1. Va a pedir un chiste a la API de Chuck Norris
   // USamos el método 'fetch' que es una función global de JAvaScript, para hacer una petición GET a la API , en la URL que le pasamos como parámetro
   // Guardamos la respuesta en la variable response.
@@ -22,7 +27,7 @@ async function getRandomJoke() {
 
   // 2. Va a procesar la respuesta, para convertirla en un tipo de datos que sea capaz mi programa de entederlo (objeto, array de objetos) 99% veces
   // Le decimos a JavaScript que esa respuesta contiene un string en formato JSON. Queremos que lo convieta de string a objeto (o array de objetos)
-  const datos = await respuesta.json();
+  datos = await respuesta.json();
 
   // 3. Cuando tenga la información ya puedo actualizar el DOM
   console.log("datos: ", datos);
@@ -32,6 +37,17 @@ async function getRandomJoke() {
   phone.textContent = datos.results[0].phone;
   email.textContent = datos.results[0].email;
   let url = `${datos.results[0].picture.large}`;
-  //console.log(url) verificación de url
+  //console.log(url) verificación de url img
   image.src = url;
+  btn.style.display = "none";
+}, 5000);
+
+function interviewData() {
+  console.log(datos);
+  let newData = document.createElement("tr");
+  newData.innerHTML = `<td>${datos.results[0].name.first}${datos.results[0].name.last}</td>
+<td>${datos.results[0].phone}</td>
+`;
+
+  document.querySelector("tbody").appendChild(newData);
 }
